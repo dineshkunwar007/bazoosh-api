@@ -2,6 +2,9 @@
  * Bazoosh AI Creative Writing Feedback API
  * Main entry point with Express routes and scheduled functions
  */
+if (process.env.FUNCTIONS_EMULATOR === 'true') {
+  require('dotenv').config();
+}
 import * as functions from 'firebase-functions';
 import express from 'express';
 import cors from 'cors';
