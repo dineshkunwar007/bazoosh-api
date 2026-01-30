@@ -3,12 +3,12 @@
  * Main entry point with Express routes and scheduled functions
  */
 import * as functions from 'firebase-functions';
-import * as express from 'express';
-import * as cors from 'cors';
+import express from 'express';
+import cors from 'cors';
 import { FeedbackRequest, FeedbackResponse, HealthCheckResponse } from './types';
 import { validateRequest } from './utils/validation';
 import { sendError, handleOpenAIError, ErrorCode, formatValidationError } from './utils/error-handler';
-import { checkRateLimit, getRateLimitStatus, cleanupOldEntries as cleanupRateLimits } from './services/rate-limiter.service';
+import { checkRateLimit, getRateLimitStatus, cleanupOldEntries } from './services/rate-limiter.service';
 import { getCachedFeedback, cacheFeedback, getCacheStats, cleanupExpiredEntries } from './services/cache.service';
 import { getFeedback, testConnection } from './services/openai.service';
 import { logUsage, getMonthlyCost, getDailyTrends, isBudgetExceeded, monitorBudget } from './services/analytics.service';
@@ -320,12 +320,12 @@ export const cleanupCache = functions.pubsub
 /**
  * Cleanup old rate limit entries daily at 3 AM London time
  */
-export const cleanupRateLimits = functions.pubsub
+export const cleanupRateLimitsScheduled = functions.pubsub
   .schedule('0 3 * * *')
   .timeZone('Europe/London')
   .onRun(async (context) => {
     console.log('Running scheduled rate limit cleanup...');
-    const count = await cleanupRateLimits();
+    const count = await cleanupOldEntries();
     console.log(`Rate limit cleanup complete: ${count} entries removed`);
     return null;
   });

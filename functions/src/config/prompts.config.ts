@@ -324,7 +324,7 @@ export const PROMPT_TEMPLATES: PromptTemplates = {
 /**
  * Get a prompt template by type
  */
-export function getPromptTemplate(promptType: string): PromptTemplate | null {
+export function getPromptTemplate(promptType: string): import('../types').PromptTemplate | null {
   return PROMPT_TEMPLATES[promptType] || null;
 }
 
@@ -338,8 +338,8 @@ export function getAllPromptTypes(): string[] {
 /**
  * Get prompts by category
  */
-export function getPromptsByCategory(category: string): Record<string, PromptTemplate> {
-  const prompts: Record<string, PromptTemplate> = {};
+export function getPromptsByCategory(category: string): Record<string, import('../types').PromptTemplate> {
+  const prompts: Record<string, import('../types').PromptTemplate> = {};
   for (const [key, template] of Object.entries(PROMPT_TEMPLATES)) {
     if (template.category === category) {
       prompts[key] = template;

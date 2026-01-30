@@ -71,7 +71,6 @@ async function checkWindowLimit(
   const doc = await docRef.get();
 
   const now = Date.now();
-  const windowMs = window === 'hourly' ? 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
 
   if (!doc.exists) {
     // No rate limit entry - user is allowed

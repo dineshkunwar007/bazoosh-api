@@ -38,7 +38,7 @@ export async function getCachedFeedback(
     const fuzzyMatch = await getFuzzyMatch(promptType, userInput, imageReference);
     
     if (fuzzyMatch) {
-      console.log('Cache hit (fuzzy):', fuzzyMatch.cacheKey, 'similarity:', fuzzyMatch.similarity);
+      console.log('Cache hit (fuzzy):', fuzzyMatch.entry.cacheKey, 'similarity:', fuzzyMatch.similarity);
       return fuzzyMatch.entry;
     }
 
