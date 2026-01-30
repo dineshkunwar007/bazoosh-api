@@ -95,8 +95,9 @@ export function sanitizeInput(input: string): string {
   // Trim whitespace
   let sanitized = input.trim();
 
-  // Remove HTML tags (basic protection)
-  sanitized = sanitized.replace(/<[^>]*>/g, '');
+  // Remove all angle brackets to prevent any HTML tag injection
+  // This is a creative writing API - angle brackets are not needed
+  sanitized = sanitized.replace(/[<>]/g, '');
 
   // Limit length to prevent abuse (10,000 characters)
   if (sanitized.length > 10000) {
